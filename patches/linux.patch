@@ -1,0 +1,20 @@
+--- src/alpha.asm	2025-03-13 12:26:21
++++ alpha.asm	2025-03-13 12:26:06
+@@ -10,7 +10,7 @@
+ ; Print func
+ print:
+ 	;   Sys write
+-	mov rax, 0x02000004
++	mov rax, 1
+ 	;   To stdout
+ 	mov rdi, 1
+ 	;   Addr of alphabet
+@@ -23,7 +23,7 @@
+ ; Exit func
+ exit:
+ 	;   Sys exit
+-	mov rax, 0x02000001
++	mov rax, 60
+ 	;   Exit 0
+ 	xor rdi, rdi
+ 	syscall
