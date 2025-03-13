@@ -11,7 +11,7 @@
       let
         sharedAttrs = {
           name = "alpha";
-          version = "0.0.1";
+          version = "1.0.0";
           src = ./.;
           buildInputs = with pkgs; [ nasm ];
           installPhase = "install -D alpha $out/bin/alpha";
