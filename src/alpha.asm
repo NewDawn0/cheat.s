@@ -1,9 +1,9 @@
 ; Set main
 section .text
-global  _start
+global  _main
 
 ; Main entrypoint
-_start:
+_main:
 	call print
 	call exit
 

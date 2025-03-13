@@ -1,6 +1,17 @@
---- src/alpha.asm	2025-03-13 12:26:21
-+++ alpha.asm	2025-03-13 12:26:06
-@@ -10,7 +10,7 @@
+--- src/alpha.asm	2025-03-13 12:32:48
++++ alpha.asm	2025-03-13 12:33:23
+@@ -1,16 +1,16 @@
+ ; Set main
+ section .text
+-global  _main
++global  _start
+ 
+ ; Main entrypoint
+-_main:
++_start:
+ 	call print
+ 	call exit
+ 
  ; Print func
  print:
  	;   Sys write
