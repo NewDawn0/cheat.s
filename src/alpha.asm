@@ -5,7 +5,7 @@
 
 	; Alpha program
 	; Clobbers:
-	; -> dl, rcx, rdi, rsi
+	; => dl, rcx, rdi, rsi
 
 alpha:
 	lea    rdi, [rel alphabet]
