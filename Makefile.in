@@ -1,7 +1,6 @@
 SRC_DIR = ./src
 ASM_SRC = $(wildcard $(SRC_DIR)/*.asm)
 OBJ_FILES = $(ASM_SRC:.asm=.o)
-LD_FLAGS = -o alpha
 ASM_FLAGS = -fmacho64
 
 NASM = @NASM@
@@ -13,7 +12,7 @@ all: build
 build: alpha
 
 alpha: $(OBJ_FILES)
-	$(CC) $(LD_FLAGS) -o $@ $^
+	$(CC) -o $@ $^
 
 %.o: %.asm
 	$(NASM) $(ASM_FLAGS) -o $@ $<
