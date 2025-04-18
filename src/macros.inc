@@ -7,8 +7,8 @@ sys_write   equ 0x02000004 ; Linux ->  1
 ; Args:
 ;   %1 -> code
 %macro exit 1
-  mov rdi, %1
-	mov rax, sys_exit
+  mov      rdi,  %1
+	mov      rax,  sys_exit
 	syscall
 %endmacro
 
@@ -17,14 +17,14 @@ sys_write   equ 0x02000004 ; Linux ->  1
 ;   %1 -> str
 %macro print 1
   ; Save state
-  push rdi
-  push rax
+  push    rdi
+  push    rax
   ; Get strlen
-  strlen %1
-  printr %1, rax
+  strlen  %1
+  printr  %1,  rax
   ; Restore state
-  pop rax
-  pop rdi
+  pop     rax
+  pop     rdi
 %endmacro
 
 ; Prints a string range : <str ptr>, <len>
@@ -33,46 +33,51 @@ sys_write   equ 0x02000004 ; Linux ->  1
 ;   %2 -> len
 %macro printr 2
   ; Save state
-	push   rax
-	push   rdi
-	push   rsi
-	push   rcx
-	push   rdx
-  push   r8
-  push   r9
+	push     rax
+	push     rdi
+	push     rsi
+	push     rcx
+	push     rdx
+  push     r8
+  push     r9
   ; Save args
-  mov r8, %1
-  mov r9, %2
+  mov      r8,   %1
+  mov      r9,   %2
   ; Call write
-	mov    rax, sys_write ; Write
-	mov    rsi, r8        ; Str ptr
-	mov    rdi, 1         ; Stdout
-	mov    rdx, r9        ; Len
+	mov      rax,  sys_write ; Write
+	mov      rsi,  r8        ; Str ptr
+	mov      rdi,  1         ; Stdout
+	mov      rdx,  r9        ; Len
   syscall
   ; Restore state
-  pop   r9
-  pop   r8
-	pop   rdx
-	pop   rcx
-	pop   rsi
-	pop   rdi
-	pop   rax
+  pop      r9
+  pop      r8
+	pop      rdx
+	pop      rcx
+	pop      rsi
+	pop      rdi
+	pop      rax
 %endmacro
 
+; Print inline string : <bytes> ...
+; Args:
+;   %1 -> string bytes ...
 %macro prints 1+
-  jmp      %%done
-  %%str:   db %1
+  jmp       %%done
+  %%str:    db    %1
   %%done:
-    push   rax
-    push   rdi
-    lea    rdi, [rel %%str]
-    strlen rdi
-    printr rdi, rax
-    pop    rdi
-    pop    rax
+    push    rax
+    push    rdi
+    lea     rdi,  [rel %%str]
+    strlen  rdi
+    printr  rdi,  rax
+    pop     rdi
+    pop     rax
 %endmacro
 
 ; Get lenght of str : <str ptr>
+; Clobbers:
+;   al
 ; Args:
 ;   %1 -> str ptr
 ; Output:
