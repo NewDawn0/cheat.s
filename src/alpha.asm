@@ -1,9 +1,9 @@
+; Exec section & imports & exports
 section .text
 global  alpha
-
 %include "src/macros.inc"
 
-; Main program
+; Alpha program
 ; Clobbers:
 ;   dl, rcx, rdi, rsi
 alpha:
@@ -32,6 +32,7 @@ alpha:
 	prints 10, 0
 	exit   0
 
+; Static vars section
 section .data
 
 alphabet:
