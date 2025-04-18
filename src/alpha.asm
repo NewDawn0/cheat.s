@@ -1,11 +1,12 @@
-; Exec section & imports & exports
-section .text
-global  alpha
-%include "src/macros.inc"
+	;        Exec section & imports & exports
+	section  .text
+	global   alpha
+	%include "src/macros.inc"
 
-; Alpha program
-; Clobbers:
-;   dl, rcx, rdi, rsi
+	; Alpha program
+	; Clobbers:
+	; -> dl, rcx, rdi, rsi
+
 alpha:
 	lea    rdi, [rel alphabet]
 	strlen rdi
@@ -32,8 +33,8 @@ alpha:
 	prints 10, 0
 	exit   0
 
-; Static vars section
-section .data
+	;       Static vars section
+	section .data
 
 alphabet:
 	db "abcdefghijklmnopqrstuvwxyz", 0
