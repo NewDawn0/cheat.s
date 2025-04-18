@@ -59,6 +59,19 @@ sys_write   equ 0x02000004 ; Linux ->  1
 	pop   rax
 %endmacro
 
+%macro prints 1+
+  jmp      %%done
+  %%str:   db %1
+  %%done:
+    push   rax
+    push   rdi
+    lea    rdi, [rel %%str]
+    strlen rdi
+    printr rdi, rax
+    pop    rdi
+    pop    rax
+%endmacro
+
 ; Get lenght of str : <str ptr>
 ; Args:
 ;   %1 -> str ptr
