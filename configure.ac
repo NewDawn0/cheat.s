@@ -1,0 +1,9 @@
+AC_INIT([alpha], [0.1])
+AC_PROG_CC
+AC_CONFIG_SRCDIR([src])
+AC_CHECK_PROGS([LD], [ld])
+AC_CHECK_PROGS([MAKE], [make])
+AC_CHECK_PROGS([NASM], [nasm])
+AC_CHECK_PROGS([RM], [rm])
+AC_CONFIG_FILES([Makefile])
+AC_OUTPUT
