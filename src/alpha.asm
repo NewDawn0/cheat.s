@@ -5,33 +5,47 @@
 
 	; Alpha program
 	; Clobbers:
-	; => dl, rcx, rdi, rsi
+	; -  dl
 
 alpha:
+	;      Restore state
+	push   rdi
+	push   rsi
+	push   rcx
+	;      Write
 	lea    rdi, [rel alphabet]
 	strlen rdi
 	xor    rcx, rcx
 	xor    dl, dl
 
-.loop0:
+.loop:
+	;      Check if bold
 	not    dl
 	test   dl, dl
 	jnz    .if
-	prints 0x1b, "[0m ", 0
-	jmp    .loop1
+	;      Bold space
+	printb 0x1b, "[33m ", 0
+	jmp    .endif
 
 .if:
-	prints 0x1b, "[33m ", 0
-	jmp    .loop1
+	;      Not bold space
+	printb 0x1b, "[0m ", 0
 
-.loop1:
+.endif:
+	;      Print char
 	lea    rsi, [rdi+rcx]
 	printr rsi, 1
+	;      Check + loop
 	inc    rcx
-	cmp    rcx, rax
-	jne    .loop0
-	prints 10, 0
-	exit   0
+	cmp    rax, rcx
+	jg     .loop
+	;      Reset term + newline
+	printb 0x1b, "[0m", 10, 0
+	;      Save state
+	pop    rcx
+	pop    rsi
+	pop    rdi
+	ret
 
 	;       Static vars section
 	section .data
