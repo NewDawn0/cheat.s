@@ -1,10 +1,11 @@
-sys_write   equ 0x02000004
 section .text
 global  alpha
 
 %include "src/macros.inc"
-extern   escPrefix, escSuffix
 
+; Main program
+; Clobbers:
+;   dl, rcx, rdi, rsi
 alpha:
 	lea    rdi, [rel alphabet]
 	strlen rdi
@@ -31,7 +32,7 @@ alpha:
 	prints 10, 0
 	exit   0
 
-	section .data
+section .data
 
 alphabet:
 	db "abcdefghijklmnopqrstuvwxyz", 0
