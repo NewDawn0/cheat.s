@@ -9,3 +9,4 @@ src/*.o
 patches
 README.md
 *.bak/
+.asm-lsp.toml
