@@ -8,7 +8,7 @@ ASM_FLAGS = -fmacho64
 CC = @CC@
 NASM = @NASM@
 RM = @RM@
-patch = @PATCH@
+PATCH = @PATCH@
 
 all: build
 
@@ -19,6 +19,15 @@ cheat: $(OBJ_FILES)
 
 %.o: %.asm
 	$(NASM) $(ASM_FLAGS) -o $@ $<
+
+patch:
+ifeq ($(shell uname), Linux)
+	@echo "🩹 Applying Linux patches..."
+	$(PATCH) ./src/main.asm   < ./patches/linux/main.patch
+	$(PATCH) ./src/macros.inc < ./patches/linux/macros.patch
+else
+	@echo "✨ No patches needed on this platform."
+endif
 
 clean:
 	$(RM) -f $(OBJ_FILES) $(OUT_FILE)
