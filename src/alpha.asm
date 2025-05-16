@@ -1,38 +1,58 @@
-; Set main
-section .text
-global  _main
+	;        Exec section & imports & exports
+	section  .text
+	default  rel
+	extern   cYellow, cNoCol
+	global   alpha
+	%include "src/macros.inc"
 
-; Main entrypoint
-_main:
-	call print
-	call exit
+	; Alpha program : void alpha()
+	; Clobbers:
+	; -  dl
 
-; Print func
-print:
-	;   Sys write
-	mov rax, 0x02000004
-	;   To stdout
-	mov rdi, 1
-	;   Addr of alphabet
-	mov rsi, msg
-	;   Len of alphabet
-	mov rdx, msg.len
-	syscall
+alpha:
+	;      Restore state
+	push   rdi
+	push   rsi
+	push   rcx
+	;      Write
+	lea    rdi, [alphabet]
+	strlen rdi
+	xor    rcx, rcx
+	xor    dl, dl
+
+.loop:
+	;      Check if bold
+	printb " ", 0
+	not    dl
+	test   dl, dl
+	jnz    .if
+	;      Bold space
+	printv cYellow
+	jmp    .endif
+
+.if:
+	;      Not bold space
+	printv cNoCol
+
+.endif:
+	;      Print char
+	lea    rsi, [rdi+rcx]
+	printr rsi, 1
+	;      Check + loop
+	inc    rcx
+	cmp    rax, rcx
+	jg     .loop
+	;      Reset term + newline
+	printv cNoCol
+	printb 10, 0
+	;      Save state
+	pop    rcx
+	pop    rsi
+	pop    rdi
 	ret
 
-; Exit func
-exit:
-	;   Sys exit
-	mov rax, 0x02000001
-	;   Exit 0
-	xor rdi, rdi
-	syscall
+	;       Static vars section
+	section .data
 
-section .data
-
-msg:
-	;  Alphabet with newline
-	db 'a b c d e f g h i j k l m n o p q r s t u v w x y z', 10
-
-  ; Simple strlen
-  .len: equ $ - msg
+alphabet:
+	db "abcdefghijklmnopqrstuvwxyz", 0

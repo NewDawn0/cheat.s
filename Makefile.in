@@ -1,0 +1,39 @@
+SRC_DIR = ./src
+ASM_SRC = $(wildcard $(SRC_DIR)/*.asm)
+OUT_FILE = cheat
+OBJ_FILES = $(ASM_SRC:.asm=.o)
+LD_FLAGS = -o$(OUT_FILE)
+ASM_FLAGS = -fmacho64
+
+CC = @CC@
+NASM = @NASM@
+RM = @RM@
+PATCH = @PATCH@
+
+all: build
+
+build: cheat
+
+cheat: $(OBJ_FILES)
+	$(CC) -o $@ $^
+
+%.o: %.asm
+	$(NASM) $(ASM_FLAGS) -o $@ $<
+
+patch:
+ifeq ($(shell uname), Linux)
+	@echo "🩹 Applying Linux patches..."
+	$(PATCH) ./src/main.asm   < ./patches/linux/main.patch
+	$(PATCH) ./src/macros.inc < ./patches/linux/macros.patch
+else
+	@echo "✨ No patches needed on this platform."
+endif
+
+clean:
+	$(RM) -f $(OBJ_FILES) $(OUT_FILE)
+
+clean-all: clean
+	$(RM) -f Makefile configure config.log config.status $(OUT_FILE)
+	$(RM) -rf autom4te.cache
+
+.PHONY: all build clean clean-all

@@ -1,0 +1,20 @@
+--- src/main.asm	2025-05-16 23:31:40.435492204 +1000
++++ main.asm	2025-05-17 03:23:53.865142525 +1000
+@@ -3,7 +3,7 @@
+ 	default rel
+ 	extern  alpha, ansi, months; Programs
+ 	extern  cNoCol, cRed, cYellow; Colours
+-	global  _main
++	global  _start
+ 
+ 	%include "src/macros.inc"
+ 
+@@ -16,7 +16,7 @@
+ 	; Output:
+ 	; - eax -> int
+ 
+-_main:
++_start:
+ 	push rbp
+ 	mov  rbp, rsp
+ 	cmp  edi, 2

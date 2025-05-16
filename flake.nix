@@ -1,54 +1,36 @@
 {
-  description = "Fast alphabet cheatsheet";
+  description = "TUI cheat utility, optimized for forgetfulness";
 
-  inputs.utils.url = "github:NewDawn0/nixUtils";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs";
+    utils = {
+      url = "github:NewDawn0/nixUtils";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
 
   outputs = { self, utils, ... }: {
     overlays.default = final: prev: {
-      alpha = self.packages.${prev.system}.default;
+      cheat = self.packages.${prev.system}.default;
     };
     packages = utils.lib.eachSystem { } (pkgs:
-      let
-        sharedAttrs = {
-          name = "alpha";
-          version = "1.0.0";
-          src = ./.;
-          buildInputs = with pkgs; [ nasm ];
-          installPhase = "install -D alpha $out/bin/alpha";
-          meta = {
-            description = "Fast alphabet cheatsheet";
-            longDescription =
-              "Useful to quickly look up the alphabetical order when sorting items manually in alphabetical order";
-            homepage = "github:NewDawn0/alpha";
-            license = pkgs.lib.licenses.mit;
-            maintainers = with pkgs.lib.maintainers; [ NewDawn0 ];
-          };
-        };
-        darwinBld = {
-          patchPhase = "";
-          buildPhase = ''
-            nasm -fmacho64 -o alpha.o src/alpha.asm
-            ld -lSystem -L$(xcrun --show-sdk-path)/usr/lib -o alpha alpha.o
-          '';
-        };
-        linuxBld = {
-          patchPhase = "patch src/alpha.asm < patches/linux.patch";
-          buildPhase = ''
-            nasm -felf64 -o alpha.o src/alpha.asm
-            ld -o alpha alpha.o
-          '';
-        };
-      in {
+      # TODO: Linux patch
+      # TODO: Linux build
+      {
         default = pkgs.stdenv.mkDerivation {
-          inherit (sharedAttrs) name version src buildInputs installPhase meta;
-          patchPhase = with pkgs;
-            lib.optionalString stdenv.hostPlatform.isDarwin darwinBld.patchPhase
-            + lib.optionalString stdenv.hostPlatform.isLinux
-            linuxBld.patchPhase;
-          buildPhase = with pkgs;
-            lib.optionalString stdenv.hostPlatform.isDarwin darwinBld.buildPhase
-            + lib.optionalString stdenv.hostPlatform.isLinux
-            linuxBld.buildPhase;
+          name = "cheat";
+          version = "2.0.2";
+          src = ./.;
+          nativeBuildInputs = with pkgs; [ autoconf gnumake nasm patch ];
+          configurePhase = "autoconf -i && ./configure";
+          buildPhase = "make build";
+          installPhase = "install -D cheat $out/bin/cheat";
+          meta = with pkgs.lib; {
+            description = "TUI cheat utility, optimized for forgetfulness";
+            homepage = "https://github.com/cheat/cheat";
+            license = licenses.mit;
+            platforms = platforms.all;
+          };
         };
       });
   };

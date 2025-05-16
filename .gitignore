@@ -1,2 +1,9 @@
-alpha
-alpha.o
+cheat
+Makefile
+autom4te.cache
+config.log
+config.status
+configure
+src/*.o
+# Temporary
+.asm-lsp.toml
