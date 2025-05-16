@@ -1,6 +1,4 @@
 	; Syscalls (macOS)
-	; @TODO: Look up codes
-	sys_execve  equ 0x02000059 ; Linux ->  4
 	sys_exit    equ 0x02000001 ; Linux -> 60
 	sys_write   equ 0x02000004 ; Linux ->  1
 
