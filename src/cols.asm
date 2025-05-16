@@ -1,4 +1,4 @@
-global cGreen, cNoCol, cPrefix, cRed, cSuffix, cYellow
+global cBlue, cCyan, cGreen, cNoCol, cPrefix, cRed, cSuffix, cYellow
 
 section .data
 
@@ -19,3 +19,9 @@ cGreen:
 
 cRed:
 	db 0x1b, "[31;1m", 0
+
+cBlue:
+	db 0x1b, "[34m", 0
+
+cCyan:
+	db 0x1b, "[36m", 0
