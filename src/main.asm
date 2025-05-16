@@ -20,27 +20,28 @@ _main:
 	push rbp
 	mov  rbp, rsp
 	cmp  edi, 2
-	ja   .more
-	cmp  edi, 1
-	jle  .zero
+	ja   .moreArgs
+	jb   .noArgs
 	mov  rdi, [rsi+8]
 	call check
 	jmp  .done
 
-.zero:
-	mov  rdi, [rsi]
-	call check
+.noArgs:
+	printErr "No arguments"
+	printb   "  ->   Showing help instead", 10, 10, 0
+	call     help
+	exit     1
+
+.moreArgs:
+	printErr "Too many arguments"
+	printb   "  ->   Showing help instead", 10, 10, 0
+	call     help
+	exit     1
 
 .done:
 	xor eax, eax
 	pop rbp
 	ret
-
-.more:
-	printErr "Too many arguments"
-	printb   "  ->   Showing help instead", 10, 10, 0
-	call     help
-	exit     1
 
 	; Check if program is valid arg : void check(const char **prog)
 	; Args:
