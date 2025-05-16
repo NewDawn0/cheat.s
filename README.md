@@ -10,7 +10,7 @@
 Create a temporary nix shell
 
 ```bash
-nix shell github:NewDawn0/cheat
+nix shell github:NewDawn0/cheat.s
 ```
 
 ## ⚙️ How To Build
