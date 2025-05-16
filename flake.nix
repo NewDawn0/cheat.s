@@ -1,32 +1,31 @@
 {
-  description = "Fast alphabet cheatsheet";
+  description = "Fast cheatsheets for random stuff";
 
   inputs = {
-    utils.url = "github:NewDawn0/nixUtils";
-    translate = {
-      url = "github:NewDawn0/translate";
-      inputs.utils.follows = "utils";
+    nixpkgs.url = "github:NixOS/nixpkgs";
+    utils = {
+      url = "github:NewDawn0/nixUtils";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { self, translate, utils, ... }: {
+  outputs = { self, utils, ... }: {
     overlays.default = final: prev: {
-      alpha = self.packages.${prev.system}.default;
+      cheat = self.packages.${prev.system}.default;
     };
-    packages =
-      utils.lib.eachSystem { overlays = [ translate.overlays.default ]; } (pkgs:
-        # TODO: Linux patch
-        # TODO: Linux build
-        {
-          default = pkgs.stdenv.mkDerivation {
-            name = "alpha";
-            version = "1.0.0";
-            src = ./.;
-            nativeBuildInputs = with pkgs; [ autoconf nasm gnused ];
-            configurePhase = "autoconf -i && ./configure";
-            buildPhase = "make build";
-            installPhase = "install -D alpha $out/bin/alpha";
-          };
-        });
+    packages = utils.lib.eachSystem { } (pkgs:
+      # TODO: Linux patch
+      # TODO: Linux build
+      {
+        default = pkgs.stdenv.mkDerivation {
+          name = "cheat";
+          version = "2.0.1";
+          src = ./.;
+          nativeBuildInputs = with pkgs; [ autoconf gnumake nasm patch ];
+          configurePhase = "autoconf -i && ./configure";
+          buildPhase = "make build";
+          installPhase = "install -D cheat $out/bin/cheat";
+        };
+      });
   };
 }
