@@ -1,6 +1,6 @@
 SRC_DIR = ./src
 ASM_SRC = $(wildcard $(SRC_DIR)/*.asm)
-OUT_FILE = cheat
+OUT_FILE = cheats
 OBJ_FILES = $(ASM_SRC:.asm=.o)
 LD_FLAGS = -o$(OUT_FILE)
 ASM_FLAGS = -fmacho64
@@ -8,7 +8,7 @@ ASM_FLAGS = -fmacho64
 CC = @CC@
 NASM = @NASM@
 RM = @RM@
-patch =  @PATCH@
+patch = @PATCH@
 
 all: build
 
@@ -24,7 +24,7 @@ clean:
 	$(RM) -f $(OBJ_FILES) $(OUT_FILE)
 
 clean-all: clean
-	$(RM) -f Makefile configure config.log config.status
+	$(RM) -f Makefile configure config.log config.status $(OUT_FILE)
 	$(RM) -rf autom4te.cache
 
 .PHONY: all build clean clean-all
