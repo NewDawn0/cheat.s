@@ -1,6 +1,6 @@
 SRC_DIR = ./src
 ASM_SRC = $(wildcard $(SRC_DIR)/*.asm)
-OUT_FILE = cheats
+OUT_FILE = cheat
 OBJ_FILES = $(ASM_SRC:.asm=.o)
 LD_FLAGS = -o$(OUT_FILE)
 ASM_FLAGS = -fmacho64
