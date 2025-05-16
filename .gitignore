@@ -6,7 +6,4 @@ config.status
 configure
 src/*.o
 # Temporary
-patches
-README.md
-*.bak/
 .asm-lsp.toml
