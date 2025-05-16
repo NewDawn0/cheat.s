@@ -1,24 +1,27 @@
 SRC_DIR = ./src
 ASM_SRC = $(wildcard $(SRC_DIR)/*.asm)
+OUT_FILE = cheat
 OBJ_FILES = $(ASM_SRC:.asm=.o)
+LD_FLAGS = -o$(OUT_FILE)
 ASM_FLAGS = -fmacho64
 
-NASM = @NASM@
 CC = @CC@
+NASM = @NASM@
 RM = @RM@
+patch =  @PATCH@
 
 all: build
 
-build: alpha
+build: cheat
 
-alpha: $(OBJ_FILES)
+cheat: $(OBJ_FILES)
 	$(CC) -o $@ $^
 
 %.o: %.asm
 	$(NASM) $(ASM_FLAGS) -o $@ $<
 
 clean:
-	$(RM) -f $(OBJ_FILES) alpha
+	$(RM) -f $(OBJ_FILES) $(OUT_FILE)
 
 clean-all: clean
 	$(RM) -f Makefile configure config.log config.status
