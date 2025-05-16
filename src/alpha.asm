@@ -1,9 +1,11 @@
 	;        Exec section & imports & exports
 	section  .text
+	default  rel
+	extern   cYellow, cNoCol
 	global   alpha
 	%include "src/macros.inc"
 
-	; Alpha program
+	; Alpha program : void alpha()
 	; Clobbers:
 	; -  dl
 
@@ -13,23 +15,24 @@ alpha:
 	push   rsi
 	push   rcx
 	;      Write
-	lea    rdi, [rel alphabet]
+	lea    rdi, [alphabet]
 	strlen rdi
 	xor    rcx, rcx
 	xor    dl, dl
 
 .loop:
 	;      Check if bold
+	printb " ", 0
 	not    dl
 	test   dl, dl
 	jnz    .if
 	;      Bold space
-	printb 0x1b, "[33m ", 0
+	printv cYellow
 	jmp    .endif
 
 .if:
 	;      Not bold space
-	printb 0x1b, "[0m ", 0
+	printv cNoCol
 
 .endif:
 	;      Print char
@@ -40,7 +43,8 @@ alpha:
 	cmp    rax, rcx
 	jg     .loop
 	;      Reset term + newline
-	printb 0x1b, "[0m", 10, 0
+	printv cNoCol
+	printb 10, 0
 	;      Save state
 	pop    rcx
 	pop    rsi
