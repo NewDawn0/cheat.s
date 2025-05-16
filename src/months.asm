@@ -1,7 +1,7 @@
 	;        Exec section & imports & exports
 	section  .text
 	default  rel
-	extern   cNoCol, cYellow
+	extern   cNoCol, cYellow, cPrefix, cSuffix, cBlue, cCyan
 	global   months
 	%include "src/macros.inc"
 
@@ -13,51 +13,67 @@ months:
 	;    Save state
 	push rdi
 	push rsi
-	push rbx
 	push rcx
 	push rdx
-	;    Print
+	;    Print month
 	lea  rdi, [monthsStr]
-	lea  rbx, [buf]
+	lea  rsi, [buf]
 	xor  rcx, rcx
 
-.upper0:
-	mov    rdx, 0
-	printb " - [", 0
-	printv cYellow
+.loopStart:
+	test   rcx, 1
+	jnz    .col
+	printv cBlue
+	jmp    .days
 
-.upper1:
-	mov al, byte [rdi+rdx]
-	cmp al, 0
-	je  .upper2
+.col:
+	printv cCyan
+
+.days:
+	;      Print days
+	printb " ", 0
+	printr rdi, 2
+	add    rdi, 3
+	printb "d  ", 0
+
+.abbrev:
+	xor rdx, rdx
+
+.abbrevLoop:
+	mov al, byte [rdi]
 	cmp al, 'a'
-	jb  .upper2
+	jb  .abbrevPrint
 	cmp al, 'z'
-	ja  .upper2
+	ja  .abbrevPrint
 	sub al, 0x20
 
-.upper2:
-	mov    byte [rbx], al
-	printr rbx, 1
+.abbrevPrint:
+	;      Print
+	mov    byte [rsi], al
+	printr rsi, 1
+	;      End loop
+	inc    rdi
 	inc    rdx
 	cmp    rdx, 3
-	jb     .upper1
+	jb     .abbrevLoop
+	sub    rdi, 3
+	printb "  ", 0
 
-.loop:
-	printv cNoCol
-	printb "] ", 0
+.months:
 	strlen rdi
 	printr rdi, rax
-	;      Inc
+	printv cNoCol
+
+.loopEnd:
+	strlen rdi
 	add    rdi, rax
 	inc    rdi
 	inc    rcx
 	cmp    rcx, 12
-	jne    .upper0
+	jb     .loopStart
 	;      Restore state
 	pop    rdx
 	pop    rcx
-	pop    rbx
 	pop    rsi
 	pop    rdi
 	ret
@@ -70,15 +86,15 @@ buf:
 	section .data
 
 monthsStr:
-	db "January", 10, 0
-	db "February", 10, 0
-	db "March", 10, 0
-	db "April", 10, 0
-	db "May", 10, 0
-	db "June", 10, 0
-	db "July", 10, 0
-	db "August", 10, 0
-	db "September", 10, 0
-	db "October", 10, 0
-	db "November", 10, 0
-	db "December", 10, 0
+	db "31 January", 10, 0
+	db "28 February", 10, 0
+	db "31 March", 10, 0
+	db "30 April", 10, 0
+	db "30 May", 10, 0
+	db "30 June", 10, 0
+	db "30 July", 10, 0
+	db "30 August", 10, 0
+	db "30 September", 10, 0
+	db "31 October", 10, 0
+	db "30 November", 10, 0
+	db "31 December", 10, 0
