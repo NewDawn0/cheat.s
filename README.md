@@ -1,6 +1,7 @@
 # ⚡ cheat.s – fast cheats for slow brains
 
 > A zero-fat, lightning-fast CLI cheat tool written in 100% hand-rolled pure masochist-grade x64 Assembly.
+
 > No garbage collector. No runtime. No excuses.
 
 ---
@@ -80,9 +81,10 @@ Example:
 Meanwhile:
 
 `cheat.s` starts in nanoseconds, prints in microseconds, and dies like a legend.
+
 No guardrails. No guilt. Just minimalism
 
-It’s written in assembly because I wanted to suffer — and now so can **you.**
+> It’s written in assembly because I wanted to suffer — and now so can **you.**
 
 ---
 
