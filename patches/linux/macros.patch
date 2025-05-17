@@ -1,9 +1,9 @@
---- src/macros.inc	2025-05-17 03:22:08.845503788 +1000
-+++ macros.inc	2025-05-17 03:22:30.181298390 +1000
+--- src/macros.inc	2025-05-17 14:50:31.620735093 +1000
++++ macros.inc	2025-05-17 14:50:21.990340457 +1000
 @@ -1,6 +1,6 @@
  	; Syscalls (macOS)
 -	sys_exit    equ 0x02000001 ; Linux -> 60
--	sys_write   equ 0x02000004 ; Linux ->  1
+-	sys_write   equ 0x02000004 ; Linux -> 1
 +	sys_exit    equ 60 ; macOS -> 0x02000001
 +	sys_write   equ 1  ; macOS -> 0x02000004
  

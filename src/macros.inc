@@ -1,6 +1,6 @@
 	; Syscalls (macOS)
 	sys_exit    equ 0x02000001 ; Linux -> 60
-	sys_write   equ 0x02000004 ; Linux ->  1
+	sys_write   equ 0x02000004 ; Linux -> 1
 
 	; x86-64 Calling conv
 	; Input: rdi, rsi, rdx, rcx, r8, r9

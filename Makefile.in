@@ -1,14 +1,13 @@
-SRC_DIR = ./src
-ASM_SRC = $(wildcard $(SRC_DIR)/*.asm)
-OUT_FILE = cheat
-OBJ_FILES = $(ASM_SRC:.asm=.o)
-LD_FLAGS = -o$(OUT_FILE)
 ASM_FLAGS = -fmacho64
+ASM_SRC = $(wildcard $(SRC_DIR)/*.asm)
+OBJ_FILES = $(ASM_SRC:.asm=.o)
+SRC_DIR = ./src
 
 CC = @CC@
+LD = @LD@
 NASM = @NASM@
-RM = @RM@
 PATCH = @PATCH@
+RM = @RM@
 
 all: build
 
@@ -21,19 +20,12 @@ cheat: $(OBJ_FILES)
 	$(NASM) $(ASM_FLAGS) -o $@ $<
 
 patch:
-ifeq ($(shell uname), Linux)
-	@echo "🩹 Applying Linux patches..."
-	$(PATCH) ./src/main.asm   < ./patches/linux/main.patch
-	$(PATCH) ./src/macros.inc < ./patches/linux/macros.patch
-else
-	@echo "✨ No patches needed on this platform."
-endif
+	./patch.sh
 
 clean:
 	$(RM) -f $(OBJ_FILES) $(OUT_FILE)
 
 clean-all: clean
-	$(RM) -f Makefile configure config.log config.status $(OUT_FILE)
-	$(RM) -rf autom4te.cache
+	$(RM) -rf autom4te.cache config.log config.status configure Makefile cheat
 
-.PHONY: all build clean clean-all
+.PHONY: all build clean clean-all patch

@@ -19,7 +19,11 @@
         version = "2.0.2";
         src = ./.;
         nativeBuildInputs = with pkgs; [ autoconf gnumake nasm patch ];
-        configurePhase = "autoconf -i && ./configure";
+        configurePhase = ''
+          autoconf -i
+          ./configure
+          make patch
+        '';
         buildPhase = "make build";
         installPhase = "install -D cheat $out/bin/cheat";
         meta = with pkgs.lib; {

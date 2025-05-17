@@ -25,16 +25,19 @@ alpha:
 	printb " ", 0
 	not    dl
 	test   dl, dl
-	jnz    .if
+	jz     .col
 	;      Bold space
-	printv cYellow
-	jmp    .endif
-
-.if:
-	;      Not bold space
 	printv cNoCol
+	jmp    .endCOL
 
-.endif:
+	; Not bold space
+
+.col:
+	printv cYellow
+	push   rax
+	pop    rax
+
+.endCOL:
 	;      Print char
 	lea    rsi, [rdi+rcx]
 	printr rsi, 1

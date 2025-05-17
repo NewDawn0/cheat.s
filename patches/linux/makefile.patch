@@ -1,0 +1,17 @@
+--- Makefile.in	2025-05-17 15:09:27.858210577 +1000
++++ Makefile	2025-05-17 15:09:30.082212786 +1000
+@@ -1,4 +1,4 @@
+-ASM_FLAGS = -fmacho64
++ASM_FLAGS = -felf64
+ ASM_SRC = $(wildcard $(SRC_DIR)/*.asm)
+ OBJ_FILES = $(ASM_SRC:.asm=.o)
+ SRC_DIR = ./src
+@@ -14,7 +14,7 @@
+ build: cheat
+ 
+ cheat: $(OBJ_FILES)
+-	$(CC) -o $@ $^
++	$(LD) -o $@ $^
+ 
+ %.o: %.asm
+ 	$(NASM) $(ASM_FLAGS) -o $@ $<

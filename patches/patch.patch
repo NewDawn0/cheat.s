@@ -1,0 +1,9 @@
+--- patch.sh	2025-05-17 15:07:29
++++ patch	2025-05-17 15:07:13
+@@ -1,5 +1,5 @@
+ #!/usr/bin/env bash
+-PATCHED=false
++PATCHED=true
+ 
+ if "$PATCHED"; then
+     echo "🎉 Already patched"
