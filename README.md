@@ -112,3 +112,7 @@ MIT – because even the most dangerous ideas deserve freedom.
 > `cheat.s` – For when your memory leaks more than your code.
 
 💾 Save bytes. Burn cycles. **Embrace the suffering.**
+
+## 📝 TODO
+
+- [ ] Fix argument parsing on Linux
